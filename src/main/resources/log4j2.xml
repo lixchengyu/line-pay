@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="DEBUG">
+    <Properties>
+        <Property name="logName">googlepayService</Property>
+        <Property name="basePath">./log</Property>
+    </Properties>
+    <Appenders>
+        <Console name="STDOUT" target="SYSTEM_OUT">
+            <PatternLayout disableAnsi="false" pattern="%highlight{${LOG_LEVEL_PATTERN:-%5p}}{FATAL=red blink, ERROR=red, WARN=yellow bold, INFO=green, DEBUG=green bold, TRACE=blue} | %d{${LOG_DATEFORMAT_PATTERN:-yyyy-MM-dd HH:mm:ss.SSS}} %style{${sys:PID}}{magenta} [%10.15t] %style{%-40.40C{4}}{cyan} (%F:%L) : %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}"/>
+        </Console>
+        <RollingFile name="RollingFile"
+                     fileName="${basePath}/${logName}.log"
+                     filePattern="${basePath}/$${date:yyyy-MM}/${logName}%d{-dd-MMMM-yyyy}-%i.log">
+            <PatternLayout pattern="%-5p | %d{yyyy-MM-dd HH:mm:ss} | [%t] %C{2} (%F:%L) - %m%n" />
+            <Policies>
+                <!-- rollover on startup, daily and when the file reaches
+                    10 MegaBytes -->
+                <OnStartupTriggeringPolicy />
+                <SizeBasedTriggeringPolicy
+                        size="10 MB" />
+                <TimeBasedTriggeringPolicy />
+            </Policies>
+        </RollingFile>
+    </Appenders>
+    <Loggers>
+        <!-- LOG everything at INFO level -->
+        <Root level="info">
+            <AppenderRef ref="STDOUT" />
+            <!--             <AppenderRef ref="FILE" />-->
+            <AppenderRef ref="RollingFile" />
+        </Root>
+        <!-- LOG "com.lance" at TRACE level -->
+        <Logger name="com.lance" level="DEBUG"></Logger>
+    </Loggers>
+</Configuration>

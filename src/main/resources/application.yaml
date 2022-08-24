@@ -1,0 +1,43 @@
+spring:
+  profiles:
+    active: test
+  main:
+    banner-mode: "off"
+
+server:
+  port: 8443
+  # Enable https
+  ssl:
+    enabled: true
+    enabled-protocols: TLSv1.2
+    key-store: /credential/keystore.jks
+    key-store-password-path: /credential/keystore-passwd.txt
+    key-store-type: jks
+    key-alias: linepay
+    key-password-path: /credential/key-passwd.txt
+aes: lanceli
+
+# Multi-profile
+---
+
+# test
+spring:
+  config:
+    activate:
+      on-profile: test
+line-pay:
+  url: "https://sandbox-api-pay.line.me"
+  channelId: "1657361234"
+  channelSecretKey: "8015512e1ee80a816bc0eba41e4b1234"
+---
+
+# prod
+spring:
+  config:
+    activate:
+      on-profile: prod
+line-pay:
+  url: "https://api-pay.line.me"
+  channelId: "1657361234"
+  channelSecretKey: "8015512e1ee80a816bc0eba41e4b1234"
+---
